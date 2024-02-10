@@ -12,8 +12,8 @@ import { CMS_NAME, CMS_URL } from "@/lib/constants";
 function Intro() {
   return (
     <section className="flex-col md:flex-row flex items-center md:justify-between mt-16 mb-16 md:mb-12">
-      <h1 className="text-6xl md:text-8xl font-bold tracking-tighter leading-tight md:pr-8">
-        Blog.
+      <h1 className="text-4xl md:text-5xl font-bold tracking-tighter leading-tight md:pr-8">
+        Made by Messer
       </h1>
       <h2 className="text-center md:text-left text-lg mt-5 md:pl-8">
         Quality woodworking projects with custom laser engraving.
@@ -25,37 +25,25 @@ function Intro() {
 function HeroPost({
   title,
   coverImage,
-  date,
-  excerpt,
-  author,
   slug,
 }: {
   title: string;
   coverImage: any;
-  date: string;
   excerpt: string;
-  author: any;
   slug: string;
 }) {
   return (
     <section>
-      <div className="mb-8 md:mb-16">
+      <div className="mb-4 md:mb-8">
         <CoverImage title={title} slug={slug} url={coverImage.url} />
       </div>
       <div className="md:grid md:grid-cols-2 md:gap-x-16 lg:gap-x-8 mb-20 md:mb-28">
         <div>
-          <h3 className="mb-4 text-4xl lg:text-6xl leading-tight">
+          <h3 className="mb-4 text-xl md:text-2xl lg:text-3xl leading-tight">
             <Link href={`/posts/${slug}`} className="hover:underline">
               {title}
             </Link>
           </h3>
-          <div className="mb-4 md:mb-0 text-lg">
-            <Date dateString={date} />
-          </div>
-        </div>
-        <div>
-          <p className="text-lg leading-relaxed mb-4">{excerpt}</p>
-          {author && <Avatar name={author.name} picture={author.picture} />}
         </div>
       </div>
     </section>
@@ -64,9 +52,11 @@ function HeroPost({
 
 export default async function Page() {
   const { isEnabled } = draftMode();
-  const allPosts = await getAllPosts(isEnabled);
+  const allPosts = await getAllPosts(true);
   const heroPost = allPosts[0];
   const morePosts = allPosts.slice(1);
+
+  console.log(allPosts);
 
   return (
     <div className="container mx-auto px-5">
@@ -75,8 +65,6 @@ export default async function Page() {
         <HeroPost
           title={heroPost.title}
           coverImage={heroPost.coverImage}
-          date={heroPost.date}
-          author={heroPost.author}
           slug={heroPost.slug}
           excerpt={heroPost.excerpt}
         />
